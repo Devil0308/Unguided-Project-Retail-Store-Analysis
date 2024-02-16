@@ -1,5 +1,3 @@
-![](Images/shopping-1165437_640.jpg)
-
 ## Problem Statement
 A retail company with multiple outlet stores is having bad revenue returns 
 from the stores with most of them facing bankruptcy. This project 
@@ -137,6 +135,98 @@ the models which is within acceptable range. As seen in the prediction
 report table, the results from the three models are very comparable.
 
 ![](Images/image28.png)
+
+- The summary of the evaluation report (r2, ad_r2, 
+root_mean_squared_error and mean_absolute_percentage_error) is 
+presented in the table below. It’s noted below:-
+
+![](Images/image09.png)
+
+- Mean_squared_error, r2, which is a measure of the goodness of fit of 
+the model to the data is negative for all the models. However, the 
+mean absolute percentage error (for both test and train) which is a 
+measure of the accuracy of the model is very good for all the models.
+
+3. ***Comparing Models***:
+
+![](Images/image29.png)
+
+***Temperature Effects on weekly sales***: Evaluation of how changes in 
+temperature effects the weekly sales revenue is presented below:
+
+![](Images/image012.png)
+![](Images/image013.png)
+![](Images/image014.png)
+![](Images/image015.png)
+![](Images/image016.png)
+
+---
+
+## Future Possibilities
+Future of Machine learning is revolutionary and exciting. At present it is 
+used in healthcare with personalized treatments, empower autonomous 
+systems for safer transportation and industry, and drive ethical AI 
+innovations ensuring fairness and transparency in decision-making across 
+sectors.
+By helping enterprises to better understand both customer’s and business 
+functioning behaviour, Machine learning enables companies to offer 
+better/targeted customer service leading to more loyal customers and 
+ultimately improved sales revenue.
+All over the world, almost all big corporate organizations (Facebook, Apple, 
+Amazon and Google) and many more companies employ machine learning 
+in their daily operations.
+
+---
+
+## Conclusion
+The project undertook a study of a retail company with 45 outlets stores. 
+Some of the key findings from the survey include the following:
+1. Sales projection of next 12 weeks for the most of the stores is 
+down.
+2. Mild no of stores have no sales in some period of year mostly in 
+cold season.
+3. To improve sales revenue, the following steps are recommended:
+    - Concerted efforts by the company to find out though local 
+market surveys and past sales records what products are in 
+high demand by the local population at any given period of 
+the year and make effort to replenish those stocks.
+    - Create increased local awareness of the products on offer at 
+each store through commercial outreach: social media, 
+television commercials and trade shows to name a few, could 
+help improve sales.
+    - Have detailed records of inventory of the items on offer at 
+each store indicating amount and dates if sold as it is needed 
+for effective inventory tracking which could help in 
+maintaining stores offer.
+    - Explore other service options that have worked well for 
+similar companies, such as same day or next day delivery or 
+services provided for the product provided.
+It may result to wounding some stores as sales revenue does not 
+improve.
+
+---
+
+## References
+
+1. Time Series Analysis and Its Applications by Robert H. Shumway and 
+David S. Stoffer: This textbook covers various aspects of time series 
+analysis, including stationarity, decomposition, and forecasting 
+techniques.
+2. Forecasting: Principles and Practice by Rob J Hyndman and George 
+Athanasopoulos: This online textbook provides a comprehensive 
+overview of forecasting methods, including ARIMA, SARIMA, and 
+SARIMAX models, along with practical examples.
+3. Python for Data Analysis by Wes McKinney: This book covers data 
+analysis techniques using Python, including time series analysis with 
+pandas, statsmodels, and other libraries.
+4. Statsmodels Documentation: The official documentation for 
+statsmodels library offers detailed information on time series analysis 
+and forecasting methods available in Python
+5. Blogs and Articles:
+Data science blogs like Towards Data Science, Analytics Vidhya, and 
+Medium often publish articles on time series analysis and forecasting.
+
+
 
 
 
