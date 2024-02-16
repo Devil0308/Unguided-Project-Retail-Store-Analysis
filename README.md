@@ -208,21 +208,21 @@ improve.
 
 ## References
 
-1. Time Series Analysis and Its Applications by Robert H. Shumway and 
-David S. Stoffer: This textbook covers various aspects of time series 
+1. **Time Series Analysis and Its Applications by Robert H. Shumway and 
+David S. Stoffer**: This textbook covers various aspects of time series 
 analysis, including stationarity, decomposition, and forecasting 
 techniques.
-2. Forecasting: Principles and Practice by Rob J Hyndman and George 
-Athanasopoulos: This online textbook provides a comprehensive 
+2. **Forecasting: Principles and Practice by Rob J Hyndman and George 
+Athanasopoulos**: This online textbook provides a comprehensive 
 overview of forecasting methods, including ARIMA, SARIMA, and 
 SARIMAX models, along with practical examples.
-3. Python for Data Analysis by Wes McKinney: This book covers data 
+3. **Python for Data Analysis by Wes McKinney**: This book covers data 
 analysis techniques using Python, including time series analysis with 
 pandas, statsmodels, and other libraries.
-4. Statsmodels Documentation: The official documentation for 
+4. **Statsmodels Documentation**: The official documentation for 
 statsmodels library offers detailed information on time series analysis 
 and forecasting methods available in Python
-5. Blogs and Articles:
+5. **Blogs and Articles**:
 Data science blogs like Towards Data Science, Analytics Vidhya, and 
 Medium often publish articles on time series analysis and forecasting.
 
