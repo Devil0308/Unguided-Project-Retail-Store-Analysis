@@ -1,3 +1,10 @@
+## Power BI Report Intro
+
+
+https://github.com/DheerajLearner/Unguided-Project-Retail-Store-Analysis/assets/54669506/6b3d5a5e-c387-484a-bfc0-d9738bf2dc44
+
+
+
 ## Problem Statement
 A retail company with multiple outlet stores is having bad revenue returns 
 from the stores with most of them facing bankruptcy. This project 
