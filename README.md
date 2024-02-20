@@ -1,4 +1,4 @@
-## Power BI Report Intro
+## Project Power BI Report Intro
 
 
 https://github.com/DheerajLearner/Unguided-Project-Retail-Store-Analysis/assets/54669506/6b3d5a5e-c387-484a-bfc0-d9738bf2dc44
@@ -235,6 +235,12 @@ and forecasting methods available in Python
 5. **Blogs and Articles**:
 Data science blogs like Towards Data Science, Analytics Vidhya, and 
 Medium often publish articles on time series analysis and forecasting.
+
+---
+
+## Power BI Snaps
+
+
 
 
 
