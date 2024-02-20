@@ -3,6 +3,9 @@
 
 https://github.com/DheerajLearner/Unguided-Project-Retail-Store-Analysis/assets/54669506/6b3d5a5e-c387-484a-bfc0-d9738bf2dc44
 
+- For power BI snaps refer at last of readme file.
+
+---
 
 
 ## Problem Statement
