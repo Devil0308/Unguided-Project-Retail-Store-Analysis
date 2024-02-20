@@ -256,6 +256,8 @@ Medium often publish articles on time series analysis and forecasting.
 
 ---
 
+link: https://app.powerbi.com/links/0spP5Sqsah?ctid=6b51660e-85ef-45af-8d1d-d1b469791224&pbi_source=linkShare&bookmarkGuid=420f4d88-e5ea-446a-babd-c8286d97f777
+
 
 
 
