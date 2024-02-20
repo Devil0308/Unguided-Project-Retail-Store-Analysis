@@ -57,6 +57,8 @@ The pre-processing of the data included the following steps:
 5. Step 5: Forecast
 6. Step 6: Compare result from different models
 
+   ![](Images/download.png)
+
 ---
 
 ## Techniques and Data Visualization
@@ -99,6 +101,53 @@ model provided cane be used for predictions for other stores or all stores.
 ## Inferences from the Project
 ### Model Results:
 1. ***ARIMA Model*** :
+   ### code
+        detrend_forecast = pd.DataFrame(columns = ['Store','Forecasted_Date','Forecasted_Weekly_Sales','Arima_Predict','Arima_Date','Test_value',
+                                       'Test_Date','Full_Arima_Predict','Full_Arima_Predict_dates','Actual_Date','Actual_value','Order (p,d,r)'])
+        for i in store_list:
+          fore_store = get_store_df(df_rem, i)
+          fore_store = fore_store[['Weekly_Sales']]
+          fore_store.index.sort_values()
+
+          moving_average = fore_store['Weekly_Sales'].rolling(window = 52, min_periods=1, center=True).mean()
+          rolling_mean_detrended = fore_store['Weekly_Sales'] - moving_average
+
+          rolling_mean_detrended_not_null = rolling_mean_detrended.dropna()
+          train_index = len(rolling_mean_detrended_not_null)//5
+          train = rolling_mean_detrended_not_null.iloc[:-train_index]
+          test = rolling_mean_detrended_not_null.iloc[-train_index:]
+
+          model = auto_arima(rolling_mean_detrended.dropna(), trace=False, error_action='ignore', suppress_warnings=True)
+          p,d,r = model.order
+          if p == 0 & r == 0:
+            p,q,r = order_forecast(rolling_mean_detrended.dropna())
+
+          # model train predict
+          arima_model = ARIMA(train, order = (p,d,r))
+          arima_fit = arima_model.fit()
+          preds = arima_fit.predict(start = len(train), end = len(rolling_mean_detrended)-1)
+          arima_pred = preds.values + moving_average.loc[test.index]
+
+          #full model fit
+          full_arima_model = ARIMA(rolling_mean_detrended.dropna(), order = (p,d,r))
+          full_arima_fit_model = full_arima_model.fit()
+
+          # Full Predicted
+          full_arima_preds = full_arima_fit_model.predict(start = 0, end = len(rolling_mean_detrended)-1)
+          reconstructed_sales = full_arima_preds + moving_average.loc[rolling_mean_detrended.index]
+
+
+          # forecast
+          arima_forecast = full_arima_fit_model.get_forecast(steps = 12)
+          final_forecast = arima_forecast.predicted_mean + moving_average[-1]
+          final_forecast_dates = pd.date_range(start = fore_store.index[-1], periods = 13, freq = 'W' )[1:]
+
+        detrend_forecast = detrend_forecast.append({'Store':i, 'Forecasted_Date':final_forecast_dates, 'Forecasted_Weekly_Sales':
+                                                    final_forecast.values,'Arima_Predict':arima_pred,'Arima_Date':test.index,'Test_value':fore_store.iloc[-train_index:]['Weekly_Sales'].values,
+                                              'Test_Date':fore_store.iloc[-train_index:]['Weekly_Sales'].index, 
+                                              'Full_Arima_Predict':reconstructed_sales,'Full_Arima_Predict_dates':reconstructed_sales.index,'Actual_value': fore_store['Weekly_Sales'].values, 'Actual_Date': 
+                                               fore_store.index,'Order (p,d,r)': (p,d,r) }, ignore_index = True)
+
    - **Predictions**: Predictions were performed for eight stores (stores: 20, 4, 14, 13, 2, 
 10, 27 and 6) in order of decreasing weekly sales revenue. The 
 predictions results are summarized in the Table and graphs below:
@@ -122,6 +171,80 @@ down for all the stores studied.
 2. ***Regression Models***:
 - The predictions of the three models Gradient Boosting, Linear 
 Regression and Random Forest are shown below:
+### *Code*
+    info_df = pd.DataFrame(columns=['Store', 'model','train_Actual','train_Predict', 'test_Actual',             
+                                    'test_Predict','total_Actual','total_Predict','train_date','test_date','forecast_y_Date','forecast_y_test','forecast_test_data', 'total_date', 'no_of_estimators', 
+                                    'max_features','max_depth'] )
+    store_list = [20,4,14,13,2,10,27,6]
+    for i in store_list:
+      fin_store = get_store_df(df_rem, i)
+      fin_store.drop('Fuel_Price', axis = 1, inplace = True)
+      array = fin_store.values
+      X = array[:,2:6]
+      y = array[:,1:2]
+      z = fin_store.index
+      # Split Data Into Train and Test
+      X_train, X_test, y_train, y_test, z_train_date, z_test_date = train_test_split(X, y, z, train_size=0.75, random_state=42 )
+      # Forecast y-Test data
+      test_index = len(fin_store)//5
+      forecast_X_test = X[-test_index:]
+      forecast_y_test = y[-test_index:]
+      forecsat_y_date = z[-test_index:]
+      # Hyper paramenters to be used for algorithm Tuning
+      n_estimators = np.array([50,100,150,200,250])
+      max_features = np.array([1,2,3,4,5])
+      max_depth= [3, 4, 5, 6, 7]
+
+
+      # Searching best hyperparamenters for Rnadom Forest
+      param_grid = dict(n_estimators=n_estimators,max_features=max_features, max_depth = max_depth)
+      model = RandomForestRegressor()
+      kfold = KFold(n_splits=10, random_state=42, shuffle = True)
+      grid = GridSearchCV(estimator=model, param_grid=param_grid, scoring='neg_mean_squared_error', cv=kfold)
+      grid_result = grid.fit(X_train, y_train)
+      # Perdicting value by randomfroest model by using best parameters
+      rf_model = RandomForestRegressor(n_estimators=grid_result.best_params_['n_estimators'], max_features=grid_result.best_params_['max_features'])
+      rf_model.fit(X_train, y_train)
+      rf_pred_test = rf_model.predict(X_test)
+      rf_pred_train = rf_model.predict(X_train)
+      rf_forecast_test = rf_model.predict(forecast_X_test)
+      # appending values got from the process
+      info_df = info_df.append({'Store':i, 'model': 'RF','train_Actual':y_train,'train_Predict':rf_pred_train,
+                            'test_Actual':y_test, 'test_Predict':rf_pred_test,'forecast_y_test':forecast_y_test,'forecast_test_data':rf_forecast_test,'forecast_y_Date':forecsat_y_date, 'train_date':z_train_date,                             'test_date':z_test_date ,
+                            'no_of_estimators':grid_result.best_params_['n_estimators'], 'max_features':grid_result.best_params_['max_features'],
+                            'max_depth':grid_result.best_params_['max_depth']}, ignore_index=True)
+
+
+      # Using linear Regression model for prediction
+      li_model = LinearRegression()
+      li_model.fit(X_train, y_train)
+      li_pred_test = li_model.predict(X_test)
+      li_pred_train = li_model.predict(X_train)
+      li_forecast_test = li_model.predict(forecast_X_test)
+      # appending values got from the process
+      info_df = info_df.append({'Store':i, 'model': 'LR','train_Actual':y_train,'train_Predict':li_pred_train,
+                            'test_Actual':y_test, 'test_Predict':li_pred_test,'forecast_y_test':forecast_y_test,'forecast_test_data':li_forecast_test,'forecast_y_Date':forecsat_y_date,'train_date':z_train_date,                               'test_date':z_test_date ,'no_of_estimators':None, 'max_features':None,'max_depth':None}, ignore_index=True)
+
+
+      # searching best parameters for gradient boosting model
+      param_grid1 = dict(n_estimators=n_estimators, max_depth = max_depth)
+      model1 = GradientBoostingRegressor()
+      grid1 = GridSearchCV(estimator=model1, param_grid=param_grid1, scoring='neg_mean_squared_error', cv=kfold)
+      grid_result1 = grid1.fit(X_train, y_train)
+      # Predictiong values by gradient boosting model using best hyper parameters
+      gb_model = GradientBoostingRegressor(n_estimators = grid_result1.best_params_['n_estimators'],max_depth = grid_result1.best_params_['max_depth'])
+      gb_model.fit(X_train, y_train)
+      gb_pred_test = gb_model.predict(X_test)
+      gb_pred_train = gb_model.predict(X_train)
+      gb_forecast_test = gb_model.predict(forecast_X_test)
+      # appending values got from the process
+      info_df = info_df.append({'Store':i, 'model': 'GB', 'train_Actual':y_train,'train_Predict':gb_pred_train,
+                            'test_Actual':y_test, 'test_Predict':gb_pred_test,'forecast_y_test':forecast_y_test,'forecast_test_data':gb_forecast_test,'forecast_y_Date':forecsat_y_date,'train_date':z_train_date,                              'test_date':z_test_date ,'no_of_estimators':grid_result1.best_params_['n_estimators'], 'max_features':None, 'max_depth':grid_result1.best_params_['max_depth']}, ignore_index=True)
+
+    for i in info_df.index.tolist():
+      info_df.at[i, 'total_Actual'] = np.array(info_df['train_Actual'][i].tolist()+info_df['test_Actual'][i].tolist())
+      info_df.at[i, 'total_Predict'] = np.array(info_df['train_Predict'][i].tolist()+info_df['test_Predict'][i].tolist())
+      info_df.at[i, 'total_date'] = np.array(info_df['train_date'][i].tolist()+ info_df['test_date'][i].tolist())
 
 ![](Images/image13.png)
 
