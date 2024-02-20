@@ -240,6 +240,21 @@ Medium often publish articles on time series analysis and forecasting.
 
 ## Power BI Snaps
 
+![](Images/image30.png)
+
+---
+
+![](Images/image31.png)
+
+---
+
+![](Images/image32.png)
+
+---
+
+![](Images/image30.png)
+
+---
 
 
 
