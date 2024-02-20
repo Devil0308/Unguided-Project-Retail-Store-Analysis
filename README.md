@@ -6,7 +6,7 @@ https://github.com/DheerajLearner/Unguided-Project-Retail-Store-Analysis/assets/
 - For power BI snaps refer at last of readme file.
 
 ---
-
+# Data Sciecne Work Follow
 
 ## Problem Statement
 A retail company with multiple outlet stores is having bad revenue returns 
